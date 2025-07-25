@@ -2,4 +2,6 @@
 <resources>
     <string name="app_name">Rocket Browser</string>
     <string name="download_channel_name">Download Notifications</string>
+    <string name="enter_url">Enter URL</string>
+    <string name="go">Go</string>
 </resources>
