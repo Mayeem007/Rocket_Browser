@@ -30,7 +30,8 @@ class MainActivity : AppCompatActivity() {
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
             if (!granted) {
-                Toast.makeText(this, "Permission denied. Downloads may fail.", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Permission denied. Downloads may fail.", Toast.LENGTH_LONG)
+                    .show()
             }
         }
 
@@ -92,7 +93,6 @@ class MainActivity : AppCompatActivity() {
         }
         webView.loadUrl(url)
     }
-
     override fun onBackPressed() {
         if (webView.canGoBack()) {
             webView.goBack()

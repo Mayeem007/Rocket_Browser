@@ -7,35 +7,41 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <!-- URL entry bar -->
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="8dp"
-        android:background="?attr/colorSurface">
+        android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/url_input"
-            android:layout_width="0dp"
+        <!-- WebView fills the parent -->
+        <WebView
+            android:id="@+id/webview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <!-- URL entry bar overlaid at bottom -->
+        <LinearLayout
+            android:id="@+id/url_bar"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="@string/enter_url"
-            android:inputType="textUri"
-            android:singleLine="true" />
+            android:orientation="horizontal"
+            android:background="?attr/colorSurface"
+            android:padding="8dp"
+            android:layout_gravity="bottom">
 
-        <Button
-            android:id="@+id/go_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/go" />
-    </LinearLayout>
+            <EditText
+                android:id="@+id/url_input"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Enter URL"
+                android:inputType="textUri"
+                android:singleLine="true" />
 
-    <!-- WebView below URL bar -->
-    <WebView
-        android:id="@+id/webview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize" />
+            <Button
+                android:id="@+id/go_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Go" />
+        </LinearLayout>
+    </FrameLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
