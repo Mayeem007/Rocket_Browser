@@ -89,7 +89,7 @@ class MainActivity : AppCompatActivity() {
         }
         // Prepend “https://” if missing
         if (!URLUtil.isNetworkUrl(url) && !url.startsWith("http://") && !url.startsWith("https://")) {
-            url = "https://google.com"
+            url = "https://$url"
         }
         webView.loadUrl(url)
     }
