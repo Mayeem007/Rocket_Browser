@@ -6,4 +6,5 @@
     <string name="go">Go</string>
     <string name="refresh">Refresh</string>
     <string name="enter_url_or_search">Enter URL or search</string>
+    <string name="download">Download</string>
 </resources>
