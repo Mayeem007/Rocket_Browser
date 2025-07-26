@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/video_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- ExoPlayer view -->
     <com.google.android.exoplayer2.ui.PlayerView
         android:id="@+id/player_view"
         android:layout_width="match_parent"
@@ -12,14 +12,16 @@
         app:use_artwork="true"
         app:default_artwork="@drawable/ic_capsule"/>
 
+    <!-- Download button -->
     <Button
         android:id="@+id/download_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Download"
-        android:layout_margin="16dp"
-        android:layout_gravity="top|end"/>
+        android:layout_gravity="top|end"
+        android:layout_margin="16dp"/>
 
+    <!-- Fullscreen toggle -->
     <ImageButton
         android:id="@+id/fullscreen_button"
         android:layout_width="48dp"
@@ -27,6 +29,6 @@
         android:src="@drawable/ic_fullscreen"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="Toggle Fullscreen"
-        android:layout_margin="16dp"
-        android:layout_gravity="bottom|end"/>
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"/>
 </FrameLayout>
