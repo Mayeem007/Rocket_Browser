@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinator"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
 
-    <!-- WebView fills the screen, with bottom margin for URL bar -->
+    <!-- WebView fills the screen, padded at bottom for URL bar -->
     <WebView
         android:id="@+id/webview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="56dp"/>
+        android:layout_marginBottom="56dp" />
 
     <!-- URL entry bar at bottom -->
     <LinearLayout
@@ -28,13 +30,31 @@
             android:layout_weight="1"
             android:hint="Enter URL"
             android:inputType="textUri"
-            android:singleLine="true"/>
+            android:singleLine="true" />
 
         <Button
             android:id="@+id/go_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Go"/>
+            android:text="Go" />
     </LinearLayout>
+
+    <!-- Floating loading/refresh container -->
+    <FrameLayout
+        android:id="@+id/loading_container"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:visibility="gone"
+        android:elevation="8dp">
+
+        <ImageView
+            android:id="@+id/loading_icon"
+            android:layout_width="48dp"
+            android:layout_height="16dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_capsule"/>
+    </FrameLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
