@@ -1,24 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/video_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <com.google.android.exoplayer2.ui.PlayerView
         android:id="@+id/player_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:show_controller="true"
-        app:controller_layout_id="@layout/exo_player_control_view_fullscreen" />
+        app:use_artwork="true"
+        app:default_artwork="@drawable/ic_capsule" />
 
-
+    <!-- Download Button -->
     <Button
         android:id="@+id/download_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/download"
-        android:layout_margin="8dp"
-        android:layout_gravity="center_horizontal" />
+        android:text="Download"
+        android:layout_margin="16dp"
+        android:layout_gravity="top|end"/>
 
-</LinearLayout>
+    <!-- Full-screen Toggle -->
+    <ImageButton
+        android:id="@+id/fullscreen_button"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/ic_fullscreen"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Toggle Fullscreen"
+        android:layout_margin="16dp"
+        android:layout_gravity="bottom|end"/>
+
+</FrameLayout>
