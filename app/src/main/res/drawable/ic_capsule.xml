@@ -4,7 +4,6 @@
     android:viewportWidth="48"
     android:viewportHeight="16">
     <path
-        android:name="capsule_path"
-        android:fillColor="#6200EE"
-        android:pathData="M8,0 A8,8 0 0 1 40,0 A8,8 0 0 1 40,16 L8,16 A8,8 0 0 1 8,0z" />
+        android:fillColor="?attr/colorPrimary"
+        android:pathData="M8,0A8,8 0,0 1,40 0L40,16A8,8 0,0 1,8 16L8,0Z" />
 </vector>

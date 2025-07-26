@@ -1,61 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <!-- WebView fills the screen, padded at bottom for URL bar -->
+    <!-- WebView fills the screen, with padding to avoid being covered by the bottom bar -->
     <WebView
         android:id="@+id/webview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="56dp" />
+        android:paddingBottom="88dp" />
 
-    <!-- URL entry bar at bottom -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_gravity="bottom"
-        android:orientation="horizontal"
-        android:padding="8dp"
-        android:background="?attr/colorSurface">
-
-        <EditText
-            android:id="@+id/url_input"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Enter URL"
-            android:inputType="textUri"
-            android:singleLine="true" />
-
-        <Button
-            android:id="@+id/go_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Go" />
-    </LinearLayout>
-
-    <!-- Floating loading/refresh container -->
+    <!-- Floating loading/refresh indicator container -->
     <FrameLayout
         android:id="@+id/loading_container"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="88dp"
         android:visibility="gone"
         android:background="@drawable/refresh_capsule_bg"
-        android:elevation="8dp">
+        android:elevation="8dp"
+        android:clickable="true"
+        android:focusable="true">
 
         <ImageView
             android:id="@+id/loading_icon"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_gravity="center"
-            android:src="@drawable/ic_refresh"/>
+            android:src="@drawable/ic_refresh"
+            tools:ignore="ContentDescription" />
     </FrameLayout>
+
+    <!-- Modern Bottom App Bar for URL input -->
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottom_app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:fabAlignmentMode="end"
+        app:hideOnScroll="false">
+
+        <EditText
+            android:id="@+id/url_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="80dp"
+            android:hint="Enter URL or search"
+            android:background="@android:color/transparent"
+            android:inputType="textUri"
+            android:padding="16dp"
+            android:singleLine="true" />
+    </com.google.android.material.bottomappbar.BottomAppBar>
+
+    <!-- Floating Action Button for "Go" -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/go_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_search_24"
+        app:layout_anchor="@id/bottom_app_bar"
+        tools:ignore="ContentDescription" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
