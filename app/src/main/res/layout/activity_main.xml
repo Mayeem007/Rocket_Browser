@@ -5,12 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- WebView fills the screen, with padding at the bottom for URL bar -->
+    <!-- WebView fills the screen with bottom margin/navigation bar -->
     <WebView
         android:id="@+id/webview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="56dp" />
+        android:layout_marginBottom="56dp"/>
 
     <!-- URL bar at bottom -->
     <LinearLayout
@@ -22,8 +22,7 @@
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
         android:background="?attr/colorSurface"
-        android:gravity="center_vertical"
-        >
+        android:gravity="center_vertical">
 
         <EditText
             android:id="@+id/url_input"
@@ -36,20 +35,15 @@
             android:padding="8dp"
             android:singleLine="true"
             android:textColor="@android:color/black"
-            android:textColorHint="@color/secondary"
-            />
+            android:textColorHint="@color/secondary" />
 
-        <!-- Loading spinner (hidden unless loading) -->
-        <ProgressBar
-            android:id="@+id/url_loading_spinner"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginStart="4dp"
-            android:indeterminate="true"
-            android:visibility="gone"
-            style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Small"/>
+        <Button
+            android:id="@+id/go_button"
+            android:layout_width="wrap_content"
+            android:layout_height="42dp"
+            android:text="Go"
+            android:layout_marginStart="8dp" />
 
-        <!-- Refresh button (only visible when loaded) -->
         <ImageButton
             android:id="@+id/url_refresh"
             android:layout_width="40dp"
@@ -59,8 +53,8 @@
             android:src="@drawable/ic_refresh"
             android:contentDescription="Refresh"
             android:visibility="gone"
-            android:tint="?attr/colorPrimary"/>
+            android:layout_marginStart="4dp"
+            app:tint="?attr/colorPrimary" />
 
-        <!-- You may want to also add a Go/FAB, but in modern UI, Enter key is enough -->
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
