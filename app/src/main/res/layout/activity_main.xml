@@ -2,69 +2,65 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
-    <!-- WebView fills the screen, with padding to avoid being covered by the bottom bar -->
+    <!-- WebView fills the screen, with padding at the bottom for URL bar -->
     <WebView
         android:id="@+id/webview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="88dp" />
+        android:layout_marginBottom="56dp" />
 
-    <!-- Floating loading/refresh indicator container -->
-    <FrameLayout
-        android:id="@+id/loading_container"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_gravity="bottom|end"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="88dp"
-        android:visibility="gone"
-        android:background="@drawable/refresh_capsule_bg"
-        android:elevation="8dp"
-        android:clickable="true"
-        android:focusable="true">
-
-        <ImageView
-            android:id="@+id/loading_icon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_refresh"
-            tools:ignore="ContentDescription" />
-    </FrameLayout>
-
-    <!-- Modern Bottom App Bar for URL input -->
-    <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/bottom_app_bar"
+    <!-- URL bar at bottom -->
+    <LinearLayout
+        android:id="@+id/url_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:layout_gravity="bottom"
-        app:fabAlignmentMode="end"
-        app:hideOnScroll="false">
+        android:orientation="horizontal"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:background="?attr/colorSurface"
+        android:gravity="center_vertical"
+        >
 
         <EditText
             android:id="@+id/url_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="80dp"
-            android:hint="Enter URL or search"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:layout_weight="1"
             android:background="@android:color/transparent"
+            android:hint="Enter URL or search"
             android:inputType="textUri"
-            android:padding="16dp"
-            android:singleLine="true" />
-    </com.google.android.material.bottomappbar.BottomAppBar>
+            android:padding="8dp"
+            android:singleLine="true"
+            android:textColor="@android:color/black"
+            android:textColorHint="@color/secondary"
+            />
 
-    <!-- Floating Action Button for "Go" -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/go_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_search_24"
-        app:layout_anchor="@id/bottom_app_bar"
-        tools:ignore="ContentDescription" />
+        <!-- Loading spinner (hidden unless loading) -->
+        <ProgressBar
+            android:id="@+id/url_loading_spinner"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="4dp"
+            android:indeterminate="true"
+            android:visibility="gone"
+            style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Small"/>
 
+        <!-- Refresh button (only visible when loaded) -->
+        <ImageButton
+            android:id="@+id/url_refresh"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@android:color/transparent"
+            android:padding="8dp"
+            android:src="@drawable/ic_refresh"
+            android:contentDescription="Refresh"
+            android:visibility="gone"
+            android:tint="?attr/colorPrimary"/>
+
+        <!-- You may want to also add a Go/FAB, but in modern UI, Enter key is enough -->
+    </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
