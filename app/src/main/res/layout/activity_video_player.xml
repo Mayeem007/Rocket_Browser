@@ -10,9 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:use_artwork="true"
-        app:default_artwork="@drawable/ic_capsule" />
+        app:default_artwork="@drawable/ic_capsule"/>
 
-    <!-- Download Button -->
     <Button
         android:id="@+id/download_button"
         android:layout_width="wrap_content"
@@ -21,7 +20,6 @@
         android:layout_margin="16dp"
         android:layout_gravity="top|end"/>
 
-    <!-- Full-screen Toggle -->
     <ImageButton
         android:id="@+id/fullscreen_button"
         android:layout_width="48dp"
@@ -31,5 +29,4 @@
         android:contentDescription="Toggle Fullscreen"
         android:layout_margin="16dp"
         android:layout_gravity="bottom|end"/>
-
 </FrameLayout>
