@@ -1,8 +1,10 @@
+@file:Suppress("DEPRECATION")
+
 package com.example.rocketbrowser
 
-import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.ui.PlayerView
@@ -18,7 +20,7 @@ class VideoPlayerActivity : AppCompatActivity() {
         player = ExoPlayer.Builder(this).build().also { exo ->
             playerView.player = exo
             intent.getStringExtra("video_uri")?.let { uriString ->
-                exo.setMediaItem(MediaItem.fromUri(Uri.parse(uriString)))
+                exo.setMediaItem(MediaItem.fromUri(uriString.toUri()))
                 exo.prepare()
                 exo.play()
             }

@@ -1,47 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/coordinator"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
-    <FrameLayout
+    <!-- WebView fills the screen with bottom margin/navigation bar -->
+    <WebView
+        android:id="@+id/webview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="56dp"/>
 
-        <!-- WebView fills the parent -->
-        <WebView
-            android:id="@+id/webview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+    <!-- URL bar at bottom -->
+    <LinearLayout
+        android:id="@+id/url_bar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:background="?attr/colorSurface"
+        android:gravity="center_vertical">
 
-        <!-- URL entry bar overlaid at bottom -->
-        <LinearLayout
-            android:id="@+id/url_bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="?attr/colorSurface"
+        <EditText
+            android:id="@+id/url_input"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:hint="Enter URL or search"
+            android:inputType="textUri"
             android:padding="8dp"
-            android:layout_gravity="bottom">
+            android:singleLine="true"
+            android:textColor="@android:color/black"
+            android:textColorHint="@color/secondary" />
 
-            <EditText
-                android:id="@+id/url_input"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Enter URL"
-                android:inputType="textUri"
-                android:singleLine="true" />
+        <Button
+            android:id="@+id/go_button"
+            android:layout_width="wrap_content"
+            android:layout_height="42dp"
+            android:text="Go"
+            android:layout_marginStart="8dp" />
 
-            <Button
-                android:id="@+id/go_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Go" />
-        </LinearLayout>
-    </FrameLayout>
+        <ImageButton
+            android:id="@+id/url_refresh"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@android:color/transparent"
+            android:padding="8dp"
+            android:src="@drawable/ic_refresh"
+            android:contentDescription="Refresh"
+            android:visibility="gone"
+            android:layout_marginStart="4dp"
+            app:tint="?attr/colorPrimary" />
 
+    </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

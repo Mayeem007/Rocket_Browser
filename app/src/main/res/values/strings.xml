@@ -4,4 +4,6 @@
     <string name="download_channel_name">Download Notifications</string>
     <string name="enter_url">Enter URL</string>
     <string name="go">Go</string>
+    <string name="refresh">Refresh</string>
+    <string name="enter_url_or_search">Enter URL or search</string>
 </resources>

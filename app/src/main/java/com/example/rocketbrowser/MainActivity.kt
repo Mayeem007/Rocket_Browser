@@ -1,13 +1,8 @@
 package com.example.rocketbrowser
 
-import android.Manifest
-import android.app.DownloadManager
-import android.content.Context
-import android.content.pm.PackageManager
+import android.annotation.SuppressLint
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.os.Environment
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.webkit.URLUtil
@@ -17,44 +12,30 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 
 class MainActivity : AppCompatActivity() {
+
     private lateinit var webView: WebView
     private lateinit var urlInput: EditText
     private lateinit var goButton: Button
+    private lateinit var urlRefresh: ImageButton
 
-    private val requestPermissionLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
-            if (!granted) {
-                Toast.makeText(this, "Permission denied. Downloads may fail.", Toast.LENGTH_LONG)
-                    .show()
-            }
-        }
-
+    @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Bind views
+        webView = findViewById(R.id.webview)
         urlInput = findViewById(R.id.url_input)
         goButton = findViewById(R.id.go_button)
-        webView = findViewById(R.id.webview)
+        urlRefresh = findViewById(R.id.url_refresh)
 
-        // Request storage permission for API <= 33
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(
-                    this, Manifest.permission.WRITE_EXTERNAL_STORAGE
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            }
-        }
+        // Request write external storage permission for older Android versions
 
-        // Configure WebView
+        // Configure WebView settings
         webView.settings.apply {
             javaScriptEnabled = true
             domStorageEnabled = true
@@ -63,41 +44,61 @@ class MainActivity : AppCompatActivity() {
             cacheMode = WebSettings.LOAD_DEFAULT
         }
         webView.webViewClient = WebViewClient()
-        webView.webChromeClient = WebChromeClient()
+        webView.webChromeClient = object : WebChromeClient() {
 
-        // Handle Go button click
-        goButton.setOnClickListener { loadUrlFromInput() }
+            override fun onProgressChanged(view: WebView?, newProgress: Int) {
+                if (newProgress < 100) {
+                    urlRefresh.visibility = android.view.View.GONE
+                    // You could show a spinner here if desired
+                } else {
+                    urlRefresh.visibility = android.view.View.VISIBLE
+                }
+            }
+        }
 
-        // Handle “Enter” key in URL input
+        goButton.setOnClickListener {
+            loadUrlFromInput()
+        }
+
         urlInput.setOnEditorActionListener { _, actionId, event ->
-            if (actionId == EditorInfo.IME_ACTION_GO
-                || (event != null && event.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN)
-            ) {
+            if (actionId == EditorInfo.IME_ACTION_GO ||
+                (event?.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN)) {
                 loadUrlFromInput()
                 true
             } else {
                 false
             }
         }
+
+        urlRefresh.setOnClickListener {
+            urlRefresh.animate()
+                .rotationBy(360f)
+                .setDuration(600)
+                .withEndAction { urlRefresh.rotation = 0f }
+                .start()
+            webView.reload()
+        }
+
+        webView.loadUrl("https://www.google.com")
     }
 
     private fun loadUrlFromInput() {
         var url = urlInput.text.toString().trim()
         if (url.isEmpty()) {
-            Toast.makeText(this, "Please enter a URL", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Please enter a URL or search term", Toast.LENGTH_SHORT).show()
             return
         }
-        // Prepend “https://” if missing
-        if (!URLUtil.isNetworkUrl(url) && !url.startsWith("http://") && !url.startsWith("https://")) {
-            url = "https://$url"
+        if (!URLUtil.isNetworkUrl(url)) {
+            url = if (url.contains(" ")) {
+                "https://www.google.com/search?q=${Uri.encode(url)}"
+            } else {
+                "https://$url"
+            }
         }
         webView.loadUrl(url)
     }
+
     override fun onBackPressed() {
-        if (webView.canGoBack()) {
-            webView.goBack()
-        } else {
-            super.onBackPressed()
-        }
+        if (webView.canGoBack()) webView.goBack() else super.onBackPressed()
     }
 }

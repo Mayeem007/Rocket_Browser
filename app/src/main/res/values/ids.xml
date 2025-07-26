@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="loading_icon" type="id" />
+    <item name="loading_container" type="id" />
+    <item name="go_fab" type="id" />
+</resources>
