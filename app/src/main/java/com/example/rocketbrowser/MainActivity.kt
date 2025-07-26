@@ -1,103 +1,106 @@
-package com.example.rocketbrowser
-
-import android.Manifest
-import android.app.DownloadManager
-import android.content.Context
-import android.content.pm.PackageManager
-import android.net.Uri
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
+import android.graphics.drawable.AnimatedVectorDrawable
 import android.os.Build
-import android.os.Bundle
-import android.os.Environment
-import android.view.KeyEvent
-import android.view.inputmethod.EditorInfo
-import android.webkit.URLUtil
-import android.webkit.WebChromeClient
-import android.webkit.WebSettings
-import android.webkit.WebView
-import android.webkit.WebViewClient
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
+import android.view.View
+import android.widget.FrameLayout
+import android.widget.ImageView
+import androidx.annotation.RequiresApi
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var webView: WebView
-    private lateinit var urlInput: EditText
-    private lateinit var goButton: Button
 
-    private val requestPermissionLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
-            if (!granted) {
-                Toast.makeText(this, "Permission denied. Downloads may fail.", Toast.LENGTH_LONG)
-                    .show()
-            }
-        }
+    private lateinit var loadingContainer: FrameLayout
+    private lateinit var loadingIcon: ImageView
+
+    private lateinit var pulseScaleXAnimator: ObjectAnimator
+    private lateinit var pulseScaleYAnimator: ObjectAnimator
+    private lateinit var pulseColorAnimator: ObjectAnimator // Optional, for color changes
+
+    private lateinit var refreshRotateAnimator: ObjectAnimator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Bind views
-        urlInput = findViewById(R.id.url_input)
-        goButton = findViewById(R.id.go_button)
-        webView = findViewById(R.id.webview)
+        loadingContainer = findViewById(R.id.loading_container)
+        loadingIcon = findViewById(R.id.loading_icon)
 
-        // Request storage permission for API <= 33
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(
-                    this, Manifest.permission.WRITE_EXTERNAL_STORAGE
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            }
-        }
+        setupPulseAnimation()
+        setupRefreshAnimation()
 
-        // Configure WebView
-        webView.settings.apply {
-            javaScriptEnabled = true
-            domStorageEnabled = true
-            mediaPlaybackRequiresUserGesture = false
-            setSupportMultipleWindows(true)
-            cacheMode = WebSettings.LOAD_DEFAULT
-        }
-        webView.webViewClient = WebViewClient()
-        webView.webChromeClient = WebChromeClient()
-
-        // Handle Go button click
-        goButton.setOnClickListener { loadUrlFromInput() }
-
-        // Handle “Enter” key in URL input
-        urlInput.setOnEditorActionListener { _, actionId, event ->
-            if (actionId == EditorInfo.IME_ACTION_GO
-                || (event != null && event.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN)
-            ) {
-                loadUrlFromInput()
-                true
-            } else {
-                false
+        // Setup WebView & URL entry etc...
+        // Listen to WebView loading state:
+        webView.webChromeClient = object : WebChromeClient() {
+            override fun onProgressChanged(view: WebView?, newProgress: Int) {
+                if (newProgress < 100) {
+                    showLoadingIndicator()
+                } else {
+                    showRefreshIndicator()
+                }
             }
         }
     }
 
-    private fun loadUrlFromInput() {
-        var url = urlInput.text.toString().trim()
-        if (url.isEmpty()) {
-            Toast.makeText(this, "Please enter a URL", Toast.LENGTH_SHORT).show()
-            return
-        }
-        // Prepend “https://” if missing
-        if (!URLUtil.isNetworkUrl(url) && !url.startsWith("http://") && !url.startsWith("https://")) {
-            url = "https://$url"
-        }
-        webView.loadUrl(url)
+    private fun setupPulseAnimation() {
+        pulseScaleXAnimator = ObjectAnimator.ofFloat(loadingIcon, View.SCALE_X, 1f, 1.2f)
+        pulseScaleXAnimator.duration = 600
+        pulseScaleXAnimator.repeatMode = ObjectAnimator.REVERSE
+        pulseScaleXAnimator.repeatCount = ObjectAnimator.INFINITE
+
+        pulseScaleYAnimator = ObjectAnimator.ofFloat(loadingIcon, View.SCALE_Y, 1f, 1.2f)
+        pulseScaleYAnimator.duration = 600
+        pulseScaleYAnimator.repeatMode = ObjectAnimator.REVERSE
+        pulseScaleYAnimator.repeatCount = ObjectAnimator.INFINITE
+
+        // Optional: Color animator requires complex setup, can use ValueAnimator to update drawable tint.
+
+        val pulseSet = AnimatorSet()
+        pulseSet.playTogether(pulseScaleXAnimator, pulseScaleYAnimator)
+        pulseSet.start()
     }
-    override fun onBackPressed() {
-        if (webView.canGoBack()) {
-            webView.goBack()
-        } else {
-            super.onBackPressed()
+
+    private fun setupRefreshAnimation() {
+        refreshRotateAnimator = ObjectAnimator.ofFloat(loadingIcon, View.ROTATION, 0f, 360f)
+        refreshRotateAnimator.duration = 1000
+        refreshRotateAnimator.repeatCount = ObjectAnimator.INFINITE
+    }
+
+    private fun showLoadingIndicator() {
+        runOnUiThread {
+            if (loadingContainer.visibility != View.VISIBLE) {
+                loadingContainer.visibility = View.VISIBLE
+                loadingIcon.setImageResource(R.drawable.ic_capsule)
+
+                // Start pulsing scale animation
+                pulseScaleXAnimator.start()
+                pulseScaleYAnimator.start()
+                refreshRotateAnimator.cancel()
+                loadingIcon.rotation = 0f
+            }
+        }
+    }
+
+    private fun showRefreshIndicator() {
+        runOnUiThread {
+            loadingIcon.setImageResource(R.drawable.ic_refresh)
+
+            // Stop pulse animation
+            pulseScaleXAnimator.cancel()
+            pulseScaleYAnimator.cancel()
+
+            // Start refresh rotation animation
+            refreshRotateAnimator.start()
+        }
+    }
+
+    fun hideLoadingIndicator() {
+        runOnUiThread {
+            pulseScaleXAnimator.cancel()
+            pulseScaleYAnimator.cancel()
+            refreshRotateAnimator.cancel()
+
+            loadingContainer.visibility = View.GONE
+            loadingIcon.rotation = 0f
         }
     }
 }
