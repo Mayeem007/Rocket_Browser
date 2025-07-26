@@ -2,68 +2,39 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
-    <!-- WebView fills the screen, with padding at the bottom to avoid being covered -->
+    <!-- WebView fills the screen, with bottom margin for URL bar -->
     <WebView
         android:id="@+id/webview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="72dp" />
+        android:layout_marginBottom="56dp"/>
 
-    <!-- Modern Bottom App Bar -->
-    <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/bottom_app_bar"
+    <!-- URL entry bar at bottom -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:layout_gravity="bottom"
-        app:fabAlignmentMode="end"
-        app:hideOnScroll="true">
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:background="?attr/colorSurface">
 
-        <!-- URL Input Field inside the BottomAppBar -->
         <EditText
             android:id="@+id/url_input"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="80dp"
-            android:hint="Enter URL or search"
-            android:background="@android:color/transparent"
+            android:layout_weight="1"
+            android:hint="Enter URL"
             android:inputType="textUri"
-            android:padding="16dp"
-            android:singleLine="true" />
+            android:singleLine="true"/>
 
-    </com.google.android.material.bottomappbar.BottomAppBar>
-
-    <!-- Floating Action Button for "Go" -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/go_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_search_24"
-        app:layout_anchor="@id/bottom_app_bar" />
+        <Button
+            android:id="@+id/go_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Go"/>
+    </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
-<FrameLayout
-android:id="@+id/loading_container"
-android:layout_width="60dp"
-android:layout_height="60dp"
-android:layout_gravity="bottom|end"
-android:layout_margin="16dp"
-android:background="@drawable/capsule_background"
-android:elevation="8dp"
-android:visibility="gone"
-android:clickable="true"
-android:focusable="true"
-    >
-
-<ImageView
-    android:id="@+id/loading_icon"
-    android:layout_width="48dp"
-    android:layout_height="16dp"
-    android:layout_gravity="center"
-    android:src="@drawable/ic_capsule"
-    />
-</FrameLayout>
