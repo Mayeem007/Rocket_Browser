@@ -49,6 +49,9 @@ dependencies {
     // ExoPlayer for video playback
     implementation(libs.exoplayer)
     implementation(libs.extension.okhttp)
+
+    implementation(libs.androidx.media3.ui)
+    implementation(libs.androidx.media3.downloader)
     // Unit Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit.v115)

@@ -7,4 +7,6 @@
     <string name="refresh">Refresh</string>
     <string name="enter_url_or_search">Enter URL or search</string>
     <string name="download">Download</string>
+    <string name="toggle_fullscreen">Toggle Fullscreen</string>
+    <string name="Download" />
 </resources>
