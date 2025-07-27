@@ -3,6 +3,8 @@ plugins {
     kotlin("android")
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
+    id("org.jetbrains.kotlin.plugin.compose")   // <-- Compose Compiler plugin
+    kotlin("kapt")
 }
 
 android {
@@ -37,4 +39,18 @@ dependencies {
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.room.runtime)
     kapt(libs.androidx.room.compiler)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.ui.v143)
+    implementation(libs.androidx.material3.v110)
+    implementation(libs.androidx.activity.compose)
+
+    // Use the latest stable Media3 release instead of unreleased beta
+    val media3Version = "1.7.1"                                   // stable as of July 24, 2025[3]
+    implementation(libs.androidx.media3.exoplayer.v171)
+    implementation(libs.androidx.media3.ui.v171)
+    implementation(libs.androidx.media3.downloader.v171)
+
+    // Hilt, Room, Coroutines, etc.
+    implementation(libs.dagger.hilt.android)
+    kapt(libs.dagger.hilt.android.compiler)
 }

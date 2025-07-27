@@ -4,18 +4,22 @@ plugins {
     alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.kotlin.compose) apply false
 
-    id("com.google.dagger.hilt.android") version "2.47" apply false
+    //noinspection NewerVersionAvailable
+    id("com.google.dagger.hilt.android") version "2.57" apply false
 }
 
-// If you use buildscript { ... }, you could alternatively do:
-/*
-buildscript {
-  repositories {
-    google()
-    mavenCentral()
-  }
-  dependencies {
-    classpath("com.google.dagger:hilt-android-gradle-plugin:2.47")
-  }
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
 }
-*/
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
