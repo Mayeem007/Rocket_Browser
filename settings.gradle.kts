@@ -14,9 +14,9 @@ pluginManagement {
 }
 
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
     repositories {
-        google()        // <— MUST include Google’s Maven for Media3
+        google()
         mavenCentral()
     }
 }
