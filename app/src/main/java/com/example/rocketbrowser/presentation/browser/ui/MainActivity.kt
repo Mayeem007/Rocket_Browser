@@ -1,9 +1,10 @@
-package com.example.rocketbrowser
+package com.example.rocketbrowser.presentation.browser.ui
 
+import android.os.Bundle
 import android.annotation.SuppressLint
 import android.net.Uri
-import android.os.Bundle
 import android.view.KeyEvent
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.webkit.URLUtil
 import android.webkit.WebChromeClient
@@ -15,6 +16,19 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.rocketbrowser.R
+
+@AndroidEntryPoint
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            RocketBrowserTheme {
+                Surface { BrowserApp() }
+            }
+        }
+    }
+}
 
 class MainActivity : AppCompatActivity() {
 
@@ -48,10 +62,10 @@ class MainActivity : AppCompatActivity() {
 
             override fun onProgressChanged(view: WebView?, newProgress: Int) {
                 if (newProgress < 100) {
-                    urlRefresh.visibility = android.view.View.GONE
+                    urlRefresh.visibility = View.GONE
                     // You could show a spinner here if desired
                 } else {
-                    urlRefresh.visibility = android.view.View.VISIBLE
+                    urlRefresh.visibility = View.VISIBLE
                 }
             }
         }
