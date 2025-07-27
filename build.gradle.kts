@@ -13,9 +13,9 @@ buildscript {
         google()
         mavenCentral()
     }
-
 }
 
+// Remove the allprojects block since repositories are configured in settings.gradle.kts
 allprojects {
     repositories {
         google()  // Make sure this is here
