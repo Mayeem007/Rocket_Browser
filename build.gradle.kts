@@ -15,7 +15,7 @@ buildscript {
     }
 }
 
-// Remove the allprojects block since repositories are configured in settings.gradle.kts
+// allprojects block removed - repositories are configured in settings.gradle.kts
 allprojects {
     repositories {
         google()  // Make sure this is here
