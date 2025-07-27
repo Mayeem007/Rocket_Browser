@@ -58,8 +58,13 @@ dependencies {
     implementation(libs.androidx.datastore.preferences)
 
     // Media3 - Use consistent version
+<<<<<<< HEAD
     implementation("androidx.media3:media3-exoplayer:1.7.1")
     implementation("androidx.media3:media3-ui:1.7.1")
+=======
+    implementation(libs.androidx.media3.exoplayer.v171)
+    implementation(libs.androidx.media3.ui.v171)
+>>>>>>> 1394f3ff592a09671b40c7fabfb89bf7ba00ad61
     //noinspection UseTomlInstead
     implementation(libs.androidx.media3.downloader.v171)
 
