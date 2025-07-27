@@ -5,17 +5,18 @@ pluginManagement {
         mavenCentral()
     }
     plugins {
-        // Register Compose compiler plugin for Kotlin 2.0+
-        id("org.jetbrains.kotlin.plugin.compose") version "2.2.0"
-        // Register Hilt plugin
-        id("com.google.dagger.hilt.android") version "2.57"
+        id("com.android.application") version "8.11.1" apply false
+        id("org.jetbrains.kotlin.android") version "2.2.0" apply false
+        id("org.jetbrains.kotlin.kapt") version "2.2.0" apply false
+        id("com.google.dagger.hilt.android") version "2.57" apply false
+        id("org.jetbrains.kotlin.plugin.compose") version "2.2.0" apply false
     }
 }
 
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
-        google()
+        google()        // <— MUST include Google’s Maven for Media3
         mavenCentral()
     }
 }
