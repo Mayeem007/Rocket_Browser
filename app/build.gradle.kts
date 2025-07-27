@@ -4,7 +4,6 @@ plugins {
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
     id("org.jetbrains.kotlin.plugin.compose")
-    id("com.google.devtools.ksp")
 }
 
 android {
@@ -42,8 +41,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
 
     // Hilt
-    implementation("com.google.dagger:hilt-android:2.47")
-    kapt("com.google.dagger:hilt-android-compiler:2.47")                            // com.google.dagger:hilt-android-compiler
+    implementation(libs.dagger.hilt.android)
+    kapt(libs.dagger.hilt.android.compiler)                            // com.google.dagger:hilt-android-compiler
 
     // Room & DataStore
     implementation(libs.androidx.room.runtime)
@@ -51,7 +50,13 @@ dependencies {
     implementation(libs.androidx.datastore.preferences)
 
     // Media3 ExoPlayer (stable)
-    implementation("androidx.media3:media3-exoplayer:1.7.1")
-    implementation("androidx.media3:media3-ui:1.7.1")
-    implementation("androidx.media3:media3-downloader:1.7.1")
+    implementation(libs.androidx.media3.exoplayer.v171)
+    implementation(libs.androidx.media3.ui.v171)
+    implementation(libs.androidx.media3.downloader.v171)
+
+    val media3Version = "1.7.1"
+
+    implementation(libs.androidx.media3.exoplayer.v171)
+    implementation(libs.androidx.media3.ui.v171)
+    implementation(libs.androidx.media3.downloader.v171)
 }

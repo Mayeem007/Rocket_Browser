@@ -6,9 +6,9 @@ pluginManagement {
     }
     plugins {
         // Register Compose compiler plugin for Kotlin 2.0+
-        id("org.jetbrains.kotlin.plugin.compose") version "2.0.20"
+        id("org.jetbrains.kotlin.plugin.compose") version "2.2.0"
         // Register Hilt plugin
-        id("com.google.dagger.hilt.android") version "2.47"
+        id("com.google.dagger.hilt.android") version "2.57"
     }
 }
 
