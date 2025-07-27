@@ -8,18 +8,12 @@ plugins {
     id("com.google.dagger.hilt.android") version "2.57" apply false
 }
 
-pluginManagement {
+buildscript {
     repositories {
-        gradlePluginPortal()
         google()
         mavenCentral()
     }
-}
-
-dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    repositories {
-        google()
-        mavenCentral()
+    dependencies {
+        // Only needed if you still use legacy buildscript classpath
     }
 }

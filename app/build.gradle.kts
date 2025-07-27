@@ -2,14 +2,14 @@ plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("kapt")
-    id("dagger.hilt.android.plugin")
-    id("org.jetbrains.kotlin.plugin.compose")   // <-- Compose Compiler plugin
-    kotlin("kapt")
+    id("com.google.dagger.hilt.android")
+    id("org.jetbrains.kotlin.plugin.compose")
 }
 
 android {
     namespace = "com.example.rocketbrowser"
     compileSdk = 36
+
     defaultConfig {
         applicationId = "com.example.rocketbrowser"
         minSdk = 21
@@ -17,40 +17,40 @@ android {
         versionCode = 1
         versionName = "1.0"
     }
-    buildFeatures { compose = true }
-    composeOptions { kotlinCompilerExtensionVersion = "1.4.7" }
-    kotlinOptions { jvmTarget = "11" }
+
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        // With the plugin, you don’t need to specify this.
+        // kotlinCompilerExtensionVersion = "1.4.7"
+    }
+    kotlinOptions {
+        jvmTarget = "11"
+    }
 }
 
 dependencies {
+    // Core
     implementation(libs.androidx.core.ktx)
-    implementation(libs.ui)
-    implementation(libs.material3)
-    implementation(libs.androidx.activity.compose.v172)
+
+    // Compose
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.ui)                              // androidx.compose.ui:ui
+    implementation(libs.material3)                       // androidx.compose.material3:material3
     implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.hilt.android.v247)
-    kapt(libs.hilt.android.compiler.v247)
-    // Media3 ExoPlayer
-    implementation(libs.androidx.media3.exoplayer)
-    implementation(libs.dagger.hilt.android)
-    kapt(libs.dagger.hilt.android.compiler)
-    implementation(libs.androidx.media3.ui.v110beta02)
-    implementation(libs.androidx.media3.downloader.v110beta02)
-    implementation(libs.androidx.datastore.preferences)
+
+    // Hilt
+    implementation(libs.hilt.android)                    // com.google.dagger:hilt-android
+    kapt(libs.hilt.compiler)                             // com.google.dagger:hilt-android-compiler
+
+    // Room & DataStore
     implementation(libs.androidx.room.runtime)
     kapt(libs.androidx.room.compiler)
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.ui.v143)
-    implementation(libs.androidx.material3.v110)
-    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.datastore.preferences)
 
-    // Use the latest stable Media3 release instead of unreleased beta
-    val media3Version = "1.7.1"                                   // stable as of July 24, 2025[3]
-    implementation(libs.androidx.media3.exoplayer.v171)
-    implementation(libs.androidx.media3.ui.v171)
-    implementation(libs.androidx.media3.downloader.v171)
-
-    // Hilt, Room, Coroutines, etc.
-    implementation(libs.dagger.hilt.android)
-    kapt(libs.dagger.hilt.android.compiler)
+    // Media3 ExoPlayer (stable)
+    implementation("androidx.media3:media3-exoplayer:1.7.1")
+    implementation("androidx.media3:media3-ui:1.7.1")
+    implementation("androidx.media3:media3-downloader:1.7.1")
 }
