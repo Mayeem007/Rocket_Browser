@@ -18,5 +18,7 @@ buildscript {
 
 allprojects {
     repositories {
+        google()  // Make sure this is here
+        mavenCentral()
     }
 }
