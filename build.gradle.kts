@@ -13,7 +13,5 @@ buildscript {
         google()
         mavenCentral()
     }
-    dependencies {
-        // Only needed if you still use legacy buildscript classpath
-    }
+
 }
