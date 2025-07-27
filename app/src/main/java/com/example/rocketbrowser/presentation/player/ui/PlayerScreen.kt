@@ -1,4 +1,4 @@
-package com.example.rocketbrowser.player.ui
+package com.example.rocketbrowser.presentation.player.ui
 
 @Composable
 fun PlayerScreen(uri: Uri) {

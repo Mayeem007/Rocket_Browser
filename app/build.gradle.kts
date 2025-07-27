@@ -4,6 +4,7 @@ plugins {
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
     id("org.jetbrains.kotlin.plugin.compose")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -41,8 +42,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
 
     // Hilt
-    implementation(libs.hilt.android)                    // com.google.dagger:hilt-android
-    kapt(libs.hilt.compiler)                             // com.google.dagger:hilt-android-compiler
+    implementation("com.google.dagger:hilt-android:2.47")
+    kapt("com.google.dagger:hilt-android-compiler:2.47")                            // com.google.dagger:hilt-android-compiler
 
     // Room & DataStore
     implementation(libs.androidx.room.runtime)
