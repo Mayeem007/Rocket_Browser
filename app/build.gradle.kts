@@ -10,12 +10,12 @@ plugins {
 
 android {
     namespace = "com.example.rocketbrowser"
-    compileSdk = 34  // Update to latest stable
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.rocketbrowser"
-        minSdk = 24  // Raise minimum to Android 7.0
-        targetSdk = 34  // Match compileSdk
+        minSdk = 24
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
     }
@@ -23,73 +23,63 @@ android {
     buildFeatures {
         compose = true
     }
-    composeOptions {
-        // With the plugin, you don't need to specify this.
-        // kotlinCompilerExtensionVersion = "1.4.7"
-    }
+    
     kotlinOptions {
         jvmTarget = "11"
     }
 }
 
 dependencies {
-    // Core
+    // Core Android
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
+    implementation(libs.androidx.constraintlayout)
 
     // Compose
     implementation(libs.androidx.activity.compose)
-    implementation(libs.ui)                              // androidx.compose.ui:ui
-    implementation(libs.material3)                       // androidx.compose.material3:material3
+    implementation(libs.ui)
+    implementation(libs.material3)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
 
-    // Hilt
-    implementation(libs.dagger.hilt.android)
-    kapt(libs.dagger.hilt.android.compiler)                            // com.google.dagger:hilt-android-compiler
+    // Navigation
+    implementation(libs.androidx.navigation.ui.ktx)
 
-    // Room & DataStore
+    // Lifecycle
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+
+    // Room
     implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
     kapt(libs.androidx.room.compiler)
+
+    // DataStore
     implementation(libs.androidx.datastore.preferences)
 
-    // Media3 ExoPlayer (stable)
-    // Media3 ExoPlayer (stable)
+    // Media3 - Use consistent version
     implementation("androidx.media3:media3-exoplayer:1.7.1")
     implementation("androidx.media3:media3-ui:1.7.1")
     implementation("androidx.media3:media3-downloader:1.7.1")
 
-    implementation (libs.androidx.core.ktx.v1120)
-    implementation (libs.androidx.appcompat.v161)
-        implementation (libs.material.v1110)
-        implementation (libs.androidx.constraintlayout)
+    // Hilt
+    implementation(libs.dagger.hilt.android)
+    kapt(libs.dagger.hilt.android.compiler)
 
-        // Navigation component
-        implementation (libs.androidx.navigation.ui.ktx)
+    // Coroutines
+    implementation(libs.kotlinx.coroutines.android)
 
-        // ViewModel and LiveData
-        implementation (libs.androidx.lifecycle.viewmodel.ktx)
-        implementation (libs.androidx.lifecycle.livedata.ktx)
+    // Glide
+    implementation(libs.glide)
 
-        // Room for database
-        implementation (libs.androidx.room.runtime.v261)
-        implementation (libs.androidx.room.ktx)
-        kapt (libs.androidx.room.compiler.v261)
+    // Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
 
-        // Coroutines for async operations
-        implementation (libs.kotlinx.coroutines.android)
-
-        // Glide for image loading
-        implementation (libs.glide)
-
-        // Retrofit for network operations
-        implementation (libs.retrofit)
-        implementation (libs.converter.gson)
-
-        // Testing
-        testImplementation (libs.junit)
-        androidTestImplementation (libs.androidx.junit)
-        androidTestImplementation (libs.androidx.espresso.core)
-    }
-
-    val media3Version = "1.7.1"
+    // Testing
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+}
 
 
