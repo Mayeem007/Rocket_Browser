@@ -9,8 +9,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
-import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
 import android.webkit.URLUtil
 import android.widget.Button
@@ -101,24 +99,17 @@ class VideoPlayerActivity : AppCompatActivity() {
     }
 
     private fun toggleFullScreen() {
-        val container = findViewById<View>(R.id.video_container)
-        val params = container.layoutParams
-
         if (isFullscreen) {
             // Exit full-screen
             window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
             supportActionBar?.show()
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-            params.height = resources.getDimensionPixelSize(R.dimen.video_normal_height)
         } else {
             // Enter full-screen
             window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
             supportActionBar?.hide()
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-            params.height = ViewGroup.LayoutParams.MATCH_PARENT
         }
-
-        container.layoutParams = params
         isFullscreen = !isFullscreen
     }
 
