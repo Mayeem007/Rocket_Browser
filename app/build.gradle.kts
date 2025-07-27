@@ -21,18 +21,20 @@ android {
 }
 
 dependencies {
-    implementation("androidx.core:core-ktx:1.10.1")
-    implementation("androidx.compose.ui:ui:1.4.3")
-    implementation("androidx.compose.material3:material3:1.1.0")
-    implementation("androidx.activity:activity-compose:1.7.2")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
-    implementation("com.google.dagger:hilt-android:2.47")
-    kapt("com.google.dagger:hilt-android-compiler:2.47")
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.ui)
+    implementation(libs.material3)
+    implementation(libs.androidx.activity.compose.v172)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.hilt.android.v247)
+    kapt(libs.hilt.android.compiler.v247)
     // Media3 ExoPlayer
-    implementation("androidx.media3:media3-exoplayer:1.1.0-beta02")
-    implementation("androidx.media3:media3-ui:1.1.0-beta02")
-    implementation("androidx.media3:media3-downloader:1.1.0-beta02")
-    implementation("androidx.datastore:datastore-preferences:1.1.0-alpha05")
-    implementation("androidx.room:room-runtime:2.6.0-alpha02")
-    kapt("androidx.room:room-compiler:2.6.0-alpha02")
+    implementation(libs.androidx.media3.exoplayer)
+    implementation(libs.dagger.hilt.android)
+    kapt(libs.dagger.hilt.android.compiler)
+    implementation(libs.androidx.media3.ui.v110beta02)
+    implementation(libs.androidx.media3.downloader.v110beta02)
+    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.androidx.room.runtime)
+    kapt(libs.androidx.room.compiler)
 }
