@@ -3,4 +3,5 @@
     <item name="loading_icon" type="id" />
     <item name="loading_container" type="id" />
     <item name="go_fab" type="id" />
+    <item name="download_button" type="id" />
 </resources>

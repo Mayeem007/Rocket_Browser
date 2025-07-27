@@ -10,6 +10,7 @@ import android.content.pm.ServiceInfo
 import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
+import com.example.rocketbrowser.presentation.browser.ui.MainActivity
 
 class MyDownloadService : Service() {
 
