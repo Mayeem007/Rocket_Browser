@@ -10,12 +10,12 @@ plugins {
 
 android {
     namespace = "com.example.rocketbrowser"
-    compileSdk = 36
+    compileSdk = 34  // Update to latest stable
 
     defaultConfig {
         applicationId = "com.example.rocketbrowser"
-        minSdk = 21
-        targetSdk = 34
+        minSdk = 24  // Raise minimum to Android 7.0
+        targetSdk = 34  // Match compileSdk
         versionCode = 1
         versionName = "1.0"
     }
@@ -24,7 +24,7 @@ android {
         compose = true
     }
     composeOptions {
-        // With the plugin, you don’t need to specify this.
+        // With the plugin, you don't need to specify this.
         // kotlinCompilerExtensionVersion = "1.4.7"
     }
     kotlinOptions {

@@ -2,6 +2,7 @@ package com.example.rocketbrowser
 
 import android.annotation.SuppressLint
 import android.app.DownloadManager
+import android.app.PictureInPictureParams
 import android.content.Context
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
@@ -9,6 +10,8 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.util.Rational
+import android.view.View
 import android.view.WindowManager
 import android.webkit.URLUtil
 import android.widget.Button
@@ -17,9 +20,10 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.google.android.exoplayer2.ExoPlayer
-import com.google.android.exoplayer2.MediaItem
-import com.google.android.exoplayer2.ui.PlayerView
+import androidx.media3.common.MediaItem
+import androidx.media3.common.Player
+import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.ui.PlayerView
 
 @SuppressLint("SourceLockedOrientationActivity")
 class VideoPlayerActivity : AppCompatActivity() {
@@ -29,6 +33,7 @@ class VideoPlayerActivity : AppCompatActivity() {
 
     private lateinit var downloadButton: Button
     private lateinit var fullscreenButton: ImageButton
+    private lateinit var pipButton: ImageButton
     private var isFullscreen = false
 
     private val requestPermissionLauncher =
@@ -48,6 +53,7 @@ class VideoPlayerActivity : AppCompatActivity() {
         val playerView = findViewById<PlayerView>(R.id.player_view)
         downloadButton = findViewById(R.id.download_button)
         fullscreenButton = findViewById(R.id.fullscreen_button)
+        pipButton = findViewById(R.id.pip_button)
 
         // Get and validate video URL
         videoUriString = intent.getStringExtra("video_uri")
@@ -57,12 +63,19 @@ class VideoPlayerActivity : AppCompatActivity() {
             return
         }
 
-        // Initialize ExoPlayer
+        // Initialize Media3 ExoPlayer
         player = ExoPlayer.Builder(this).build().also { exo ->
             playerView.player = exo
             exo.setMediaItem(MediaItem.fromUri(Uri.parse(videoUriString!!)))
             exo.prepare()
             exo.play()
+            
+            // Add listener for PiP mode
+            exo.addListener(object : Player.Listener {
+                override fun onIsPlayingChanged(isPlaying: Boolean) {
+                    updatePictureInPictureParams()
+                }
+            })
         }
 
         // Download button logic
@@ -81,6 +94,26 @@ class VideoPlayerActivity : AppCompatActivity() {
 
         // Full-screen toggle logic
         fullscreenButton.setOnClickListener { toggleFullScreen() }
+        
+        // PiP button logic
+        pipButton.setOnClickListener { enterPictureInPictureMode() }
+    }
+    
+    private fun updatePictureInPictureParams() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val aspectRatio = Rational(16, 9)
+            val params = PictureInPictureParams.Builder()
+                .setAspectRatio(aspectRatio)
+                .build()
+            setPictureInPictureParams(params)
+        }
+    }
+    
+    private fun enterPictureInPictureMode() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            updatePictureInPictureParams()
+            enterPictureInPictureMode(PictureInPictureParams.Builder().build())
+        }
     }
 
     private fun startDownload(url: String) {
@@ -97,20 +130,36 @@ class VideoPlayerActivity : AppCompatActivity() {
         dm.enqueue(request)
         Toast.makeText(this, "Download started: $fileName", Toast.LENGTH_SHORT).show()
     }
-
+    
     private fun toggleFullScreen() {
         if (isFullscreen) {
-            // Exit full-screen
-            window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-            supportActionBar?.show()
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
+            if (supportActionBar != null) {
+                supportActionBar!!.show()
+            }
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+            isFullscreen = false
         } else {
-            // Enter full-screen
-            window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-            supportActionBar?.hide()
+            window.decorView.systemUiVisibility = (
+                    View.SYSTEM_UI_FLAG_FULLSCREEN
+                            or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                            or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+            )
+            if (supportActionBar != null) {
+                supportActionBar!!.hide()
+            }
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+            isFullscreen = true
         }
-        isFullscreen = !isFullscreen
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && isInPictureInPictureMode) {
+            // Continue playback in PiP mode
+        } else {
+            player?.pause()
+        }
     }
 
     override fun onStop() {

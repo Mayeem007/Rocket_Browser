@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- ExoPlayer view -->
-    <com.google.android.exoplayer2.ui.PlayerView
+    <!-- Media3 player view -->
+    <androidx.media3.ui.PlayerView
         android:id="@+id/player_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -32,5 +32,16 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="Toggle Fullscreen"
         android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"/>
+        
+    <!-- Picture-in-Picture button -->
+    <ImageButton
+        android:id="@+id/pip_button"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@android:drawable/ic_menu_crop"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Picture-in-Picture"
+        android:layout_gravity="bottom|start"
         android:layout_margin="16dp"/>
 </FrameLayout>
