@@ -20,10 +20,15 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.media3.common.MediaItem
-import androidx.media3.common.Player
-import androidx.media3.exoplayer.ExoPlayer
-import androidx.media3.ui.PlayerView
+// Remove Media3 imports:
+// import androidx.media3.common.MediaItem
+// import androidx.media3.common.Player
+// import androidx.media3.exoplayer.ExoPlayer
+// import androidx.media3.ui.PlayerView
+
+// Add these imports if not present:
+import android.widget.VideoView
+import android.widget.MediaController
 
 @SuppressLint("SourceLockedOrientationActivity")
 class VideoPlayerActivity : AppCompatActivity() {
@@ -45,12 +50,14 @@ class VideoPlayerActivity : AppCompatActivity() {
             }
         }
 
+    private lateinit var videoView: VideoView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_video_player)
 
         // Bind views
-        val playerView = findViewById<PlayerView>(R.id.player_view)
+        videoView = findViewById(R.id.video_view)
         downloadButton = findViewById(R.id.download_button)
         fullscreenButton = findViewById(R.id.fullscreen_button)
         pipButton = findViewById(R.id.pip_button)
@@ -63,20 +70,12 @@ class VideoPlayerActivity : AppCompatActivity() {
             return
         }
 
-        // Initialize Media3 ExoPlayer
-        player = ExoPlayer.Builder(this).build().also { exo ->
-            playerView.player = exo
-            exo.setMediaItem(MediaItem.fromUri(Uri.parse(videoUriString!!)))
-            exo.prepare()
-            exo.play()
-            
-            // Add listener for PiP mode
-            exo.addListener(object : Player.Listener {
-                override fun onIsPlayingChanged(isPlaying: Boolean) {
-                    updatePictureInPictureParams()
-                }
-            })
-        }
+        // Initialize VideoView
+        videoView.setVideoURI(Uri.parse(videoUriString!!))
+        val mediaController = MediaController(this)
+        mediaController.setAnchorView(videoView)
+        videoView.setMediaController(mediaController)
+        videoView.start()
 
         // Download button logic
         downloadButton.setOnClickListener {
@@ -166,5 +165,11 @@ class VideoPlayerActivity : AppCompatActivity() {
         super.onStop()
         player?.release()
         player = null
+    }
+
+    // Update onDestroy to stop VideoView
+    override fun onDestroy() {
+        super.onDestroy()
+        videoView.stopPlayback()
     }
 }
